@@ -6,23 +6,26 @@
   <meta name="description" content="SceneOrchestra - ECCV 2026 Poster">
   <title>SceneOrchestra - ECCV 2026 Poster</title>
   <style>
-    :root{color-scheme:dark;--blue:#6f9cff;--panel:#151c2c;--line:#303a50}
+    :root{color-scheme:dark;--blue:#6f9cff;--line:#303a50}
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
     body{overflow:hidden;background:#0b101b;color:#eef3ff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     .toolbar{position:fixed;inset:0 0 auto;z-index:10;height:64px;display:flex;align-items:center;gap:18px;padding:0 22px;background:rgba(17,24,39,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
     .title{min-width:0;font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .actions{display:flex;gap:9px;margin-left:auto}
-    .button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 14px;border:1px solid #43506a;border-radius:999px;color:#eef3ff;text-decoration:none;font-size:13px;font-weight:750;background:#1d273a}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 14px;border:1px solid #43506a;border-radius:999px;color:#eef3ff;text-decoration:none;font-size:13px;font-weight:750;background:#1d273a;cursor:pointer;font-family:inherit}
     .button.primary{background:#2457d6;border-color:#2457d6}
-    .stage{position:fixed;inset:64px 0 0;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#253048 0,#111827 55%,#090e18 100%)}
-    .preview{display:block;max-width:calc(100% - 34px);max-height:calc(100% - 34px);width:auto;height:auto;object-fit:contain;background:#fff;box-shadow:0 18px 60px rgba(0,0,0,.42);transition:opacity .35s ease}
-    iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .35s ease}
-    .status{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid rgba(148,163,184,.28);border-radius:999px;background:rgba(15,23,42,.86);box-shadow:0 8px 28px rgba(0,0,0,.26);font-size:12px;color:#d7e1f2;white-space:nowrap}
-    .spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.25);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
-    .pdf-ready iframe{opacity:1;pointer-events:auto}.pdf-ready .preview,.pdf-ready .status{opacity:0;pointer-events:none}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    @media(max-width:680px){.toolbar{height:auto;min-height:64px;padding:10px 13px;gap:10px;flex-wrap:wrap}.title{width:100%;font-size:14px}.actions{width:100%;margin:0}.button{flex:1;padding:7px 10px}.stage{inset:112px 0 0}.status{bottom:12px}}
+    .button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+    .stage{position:fixed;inset:64px 0 0;overflow:hidden;background:radial-gradient(circle at 50% 35%,#253048 0,#111827 55%,#090e18 100%)}
+    /* The poster is laid out at its fitted size and then scaled about a fixed
+       origin, so a zoom step is one transform and never reflows the image. */
+    .poster{position:absolute;top:0;left:0;max-width:100%;max-height:100%;transform-origin:0 0;display:block;background:#fff;box-shadow:0 18px 60px rgba(0,0,0,.42);cursor:zoom-in;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
+    .stage.zoomed .poster{cursor:grab}
+    .stage.zoomed.panning .poster{cursor:grabbing}
+    .hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);padding:8px 13px;border:1px solid rgba(148,163,184,.28);border-radius:999px;background:rgba(15,23,42,.86);box-shadow:0 8px 28px rgba(0,0,0,.26);font-size:12px;color:#d7e1f2;white-space:nowrap;pointer-events:none;transition:opacity .3s ease}
+    .stage.zoomed .hint{opacity:0}
+    @media(max-width:680px){.toolbar{height:auto;min-height:64px;padding:10px 13px;gap:10px;flex-wrap:wrap}.title{width:100%;font-size:14px}.actions{width:100%;margin:0}.button{flex:1;padding:7px 10px}.stage{inset:112px 0 0}.hint{bottom:12px}}
+    @media(prefers-reduced-motion:reduce){.hint{transition:none}}
   </style>
 </head>
 <body>
@@ -30,24 +33,137 @@
     <div class="title">SceneOrchestra - ECCV 2026 Poster</div>
     <nav class="actions" aria-label="Poster actions">
       <a class="button" href="./">Back to project page</a>
-      <a class="button primary" href="poster.pdf?v=20260901-4" target="_blank" rel="noreferrer">Open full-resolution PDF</a>
+      <button class="button" id="zoomToggle" type="button">Zoom in</button>
+      <a class="button primary" href="poster.pdf?v=20260901-4" target="_blank" rel="noreferrer">Print-quality PDF</a>
     </nav>
   </header>
-  <main class="stage" id="viewer">
-    <img class="preview" src="poster-preview.jpg?v=20260901-2" alt="SceneOrchestra ECCV 2026 poster preview">
-    <iframe id="posterFrame" title="SceneOrchestra - ECCV 2026 Poster"></iframe>
-    <div class="status" id="status"><span class="spinner" aria-hidden="true"></span><span>Loading full-resolution poster…</span></div>
+  <main class="stage" id="stage">
+    <picture>
+      <source media="(max-width:900px)" srcset="poster-mobile.jpg?v=20260901-1">
+      <img class="poster" id="poster" src="poster-full.jpg?v=20260901-1" width="8269" height="5907"
+           alt="SceneOrchestra ECCV 2026 poster: task and motivation, limitations of agentic workflows, the two-phase training method, template-instruction results, and complex-instruction comparisons.">
+    </picture>
+    <p class="hint">Click the poster to zoom · drag to pan</p>
   </main>
   <script>
-    const viewer = document.getElementById('viewer');
-    const frame = document.getElementById('posterFrame');
-    const status = document.getElementById('status');
-    if (window.matchMedia('(min-width: 681px)').matches) {
-      frame.addEventListener('load', () => window.setTimeout(() => viewer.classList.add('pdf-ready'), 650), {once:true});
-      frame.src = 'poster.pdf?v=20260901-4#view=FitH&navpanes=0';
-    } else {
-      status.innerHTML = '<span>Preview · use “Open full-resolution PDF” to zoom</span>';
-    }
+    const stage = document.getElementById('stage');
+    const poster = document.getElementById('poster');
+    const toggle = document.getElementById('zoomToggle');
+    const ZOOM = 2.6;
+
+    let fit = 1, scale = 1, x = 0, y = 0;
+
+    const bounds = () => {
+      const w = poster.naturalWidth * scale, h = poster.naturalHeight * scale;
+      const r = stage.getBoundingClientRect();
+      // Centre whichever axis is smaller than the stage; clamp the other one
+      // so panning can never drag the poster off its own edge.
+      return {
+        minX: w <= r.width ? (r.width - w) / 2 : r.width - w, maxX: w <= r.width ? (r.width - w) / 2 : 0,
+        minY: h <= r.height ? (r.height - h) / 2 : r.height - h, maxY: h <= r.height ? (r.height - h) / 2 : 0,
+      };
+    };
+
+    const apply = () => {
+      const b = bounds();
+      x = Math.min(b.maxX, Math.max(b.minX, x));
+      y = Math.min(b.maxY, Math.max(b.minY, y));
+      poster.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+      const zoomed = scale > fit * 1.01;
+      stage.classList.toggle('zoomed', zoomed);
+      toggle.textContent = zoomed ? 'Fit to screen' : 'Zoom in';
+    };
+
+    const measure = () => {
+      if (!poster.naturalWidth) return;
+      // Pin the layout box to the image's own pixels so `scale` below is an
+      // exact ratio; until then CSS max-width keeps the un-scripted page sane.
+      poster.style.maxWidth = poster.style.maxHeight = 'none';
+      poster.style.width = poster.naturalWidth + 'px';
+      poster.style.height = poster.naturalHeight + 'px';
+      const r = stage.getBoundingClientRect();
+      const pad = r.width < 700 ? 12 : 26;
+      const wasZoomed = scale > fit * 1.01;
+      fit = Math.min((r.width - pad * 2) / poster.naturalWidth,
+                     (r.height - pad * 2) / poster.naturalHeight);
+      scale = wasZoomed ? fit * ZOOM : fit;
+      x = (r.width - poster.naturalWidth * scale) / 2;
+      y = (r.height - poster.naturalHeight * scale) / 2;
+      apply();
+    };
+
+    // Zoom about a point in stage space, keeping that point under the cursor.
+    const zoomAt = (px, py, next) => {
+      const k = next / scale;
+      x = px - (px - x) * k;
+      y = py - (py - y) * k;
+      scale = next;
+      apply();
+    };
+
+    const zoomTo = (px, py) => {
+      const r = stage.getBoundingClientRect();
+      if (scale > fit * 1.01) {
+        scale = fit;
+        x = (r.width - poster.naturalWidth * scale) / 2;
+        y = (r.height - poster.naturalHeight * scale) / 2;
+        apply();
+      } else {
+        zoomAt(px ?? r.width / 2, py ?? r.height / 2, fit * ZOOM);
+      }
+    };
+
+    // `load` fires again when <picture> swaps sources across the 900px
+    // breakpoint, and the observer catches the toolbar re-wrapping too, which
+    // a window resize listener alone would miss.
+    poster.addEventListener('load', measure);
+    if (poster.complete) measure();
+    if (window.ResizeObserver) new ResizeObserver(measure).observe(stage);
+    else window.addEventListener('resize', measure);
+
+    toggle.addEventListener('click', () => zoomTo());
+
+    // One pointer handler covers mouse, touch and pen: a short press without
+    // movement is a zoom toggle, anything further is a pan.
+    let drag = null;
+    poster.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      drag = {id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: x, oy: y, moved: false};
+      poster.setPointerCapture(e.pointerId);
+    });
+    poster.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+      if (!drag.moved && Math.hypot(dx, dy) < 5) return;
+      drag.moved = true;
+      stage.classList.add('panning');
+      x = drag.ox + dx;
+      y = drag.oy + dy;
+      apply();
+    });
+    const endDrag = (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      stage.classList.remove('panning');
+      if (!drag.moved) {
+        const r = stage.getBoundingClientRect();
+        zoomTo(e.clientX - r.left, e.clientY - r.top);
+      }
+      drag = null;
+    };
+    poster.addEventListener('pointerup', endDrag);
+    poster.addEventListener('pointercancel', endDrag);
+
+    stage.addEventListener('wheel', (e) => {
+      if (!e.ctrlKey && !e.metaKey) return;   // leave plain scrolling to the browser
+      e.preventDefault();
+      const r = stage.getBoundingClientRect();
+      const next = Math.min(fit * 6, Math.max(fit, scale * Math.exp(-e.deltaY / 240)));
+      zoomAt(e.clientX - r.left, e.clientY - r.top, next);
+    }, {passive: false});
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && scale > fit * 1.01) zoomTo();
+    });
   </script>
 </body>
 </html>
