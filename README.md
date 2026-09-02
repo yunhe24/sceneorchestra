@@ -23,49 +23,6 @@ This source release contains:
 
 SceneWeaver itself is also not vendored. Clone its official repository separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
 
-## Method-to-code map
-
-| Paper component | Implementation |
-| --- | --- |
-| Quality and composition scores, Eqs. (3)-(4) | `src/sceneorchestra/scoring.py` |
-| Stepwise and trajectory SFT | `build_stepwise_sft`, `build_trajectory_sft` in `datasets.py` |
-| Stepwise and trajectory DPO | `build_stepwise_dpo*`, `build_trajectory_dpo` in `datasets.py` |
-| Independent discriminator | `sample_discriminator_groups`, `build_discriminator_sft` |
-| Interleaved S2 execution and discriminator update | `interleaved.py`, `05_interleaved_discriminator.yaml` |
-| Interleaved S3 ranking and orchestrator distillation | `rank-candidates`, `build_interleaved_dpo`, `06_interleaved_orchestrator.yaml` |
-| Full-trajectory inference | `generate-trajectory`, `execute-trajectory`, and `infer` |
-| SceneWeaver integration | `sceneweaver.py` |
-
-The paper values are the defaults in `constants.py`:
-
-```text
-alpha = 4, lambda = 0.1, gamma = 0.05
-tau_1 = 3, tau_2 = 7.5, tau_3 = 3, tau_4 = 3
-```
-
-For step `t`, the implementation computes
-
-```text
-Q_phy = N_obj - alpha * (N_ob + N_col)
-Q_vis = (S_real + S_func + S_lay + S_comp) / 4
-Q     = lambda * Q_phy + Q_vis
-C     = Q - gamma * T
-```
-
-`T` is cumulative runtime in minutes. Object count is read from the SceneWeaver physics metric; when older SceneWeaver outputs contain `"Unknown"`, it is recovered from `record_scene/layout_<t>.json`.
-
-## Repository layout
-
-```text
-configs/
-  train/                 all independent and interleaved training stages
-  inference/             orchestrator/discriminator model loading
-scripts/                 ordered training launchers
-src/llamafactory/        retained LLaMAFactory training framework
-src/sceneorchestra/      scoring, data construction, execution, and inference
-tests/                   synthetic unit tests (no research data)
-```
-
 ## Installation
 
 ### 1. Training and model-generation environment
