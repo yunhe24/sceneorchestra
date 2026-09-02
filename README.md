@@ -308,51 +308,6 @@ sceneorchestra infer \
 
 Generated text is parsed through Python's AST and only literal keyword arguments are accepted. The tool name, first initializer, final terminator, and terminator position are validated. Invalid generations are retried (three attempts by default), following the mitigation discussed in the paper's limitations.
 
-## Training configuration notes
-
-- Base model: `Qwen/Qwen3-4B-Instruct-2507` for both orchestrator and discriminator.
-- Fine-tuning: LoRA rank 8 with all linear targets.
-- Context length: 4096; prompt template: `qwen3_nothink`.
-- DPO: sigmoid loss with beta 0.1.
-- The optimizer, epoch, batching, and sampling defaults reproduce the working configuration from the development repository. They are editable YAML values; paper-defined scoring constants and selection thresholds are implemented separately in `constants.py`.
-- Outputs are stage-separated. The final independent orchestrator is `saves/orchestrator/04_trajectory_dpo`; the final interleaved orchestrator is `saves/orchestrator/06_interleaved_dpo`.
-
-For multi-GPU training, launch the same YAML through the normal LLaMAFactory/torchrun mechanism supported by your cluster. Do not change dataset names unless the matching `dataset_info.json` entries are also changed.
-
-## Normalized rollout schema
-
-Each line of `s1_rollouts.jsonl` has this structure (values below are schematic, not released data):
-
-```json
-{
-  "instruction": "...",
-  "rollout_id": "i00000-r000",
-  "source_dir": "/absolute/path/to/raw/run",
-  "steps": [
-    {
-      "index": 0,
-      "call": {"name": "init_gpt", "arguments": {"ideas": "..."}},
-      "cumulative_minutes": 12.3,
-      "metric": {},
-      "score": {"physical": 20.0, "visual": 8.0, "quality": 10.0, "composition": 9.385}
-    }
-  ]
-}
-```
-
-LLaMAFactory SFT files contain `prompt` and `response`. DPO files contain `prompt`, `chosen`, and `rejected`, with `ranking: true` in `dataset_info.json`.
-
-## Tests
-
-The test suite uses only synthetic metrics and trajectories:
-
-```bash
-pip install -e '.[dev]'
-pytest -q
-```
-
-For a real end-to-end smoke test, use one private instruction and one rollout. SceneWeaver execution is expensive and requires its external assets/API services, so it is intentionally not part of unit tests.
-
 ## Third-party code
 
 The retained training framework is derived from [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) and remains under the Apache License 2.0. See `LICENSE` and `NOTICE`.
