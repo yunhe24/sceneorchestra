@@ -21,8 +21,6 @@ This source release contains:
 - SceneWeaver execution adapters for an alternative next step and a full predicted trajectory;
 - inference, trajectory validation, and complete training configurations.
 
-This repository intentionally contains **no training instructions, rollouts, generated training datasets, checkpoints, model weights, scenes, renders, logs, or inference outputs**. Those paths and large SceneWeaver artefacts are excluded by `.gitignore`.
-
 SceneWeaver itself is also not vendored. Clone its official repository separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
 
 ## Method-to-code map
