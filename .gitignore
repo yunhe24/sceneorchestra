@@ -1,0 +1,31 @@
+# Generated datasets and experiment artefacts are intentionally not versioned.
+/data/
+/outputs/
+/runs/
+/logs/
+/saves/
+/checkpoints/
+/inference_outputs/
+
+# SceneWeaver artefacts can be very large.
+*.blend
+*.pkl
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.ckpt
+*.jpg
+*.jpeg
+*.png
+*.mp4
+
+# Python/tooling.
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+.env

@@ -1,0 +1,11 @@
+model_name_or_path: Qwen/Qwen3-4B-Instruct-2507
+adapter_name_or_path: saves/orchestrator/04_trajectory_dpo
+template: qwen3_nothink
+finetuning_type: lora
+infer_backend: huggingface
+trust_remote_code: true
+do_sample: true
+temperature: 0.7
+top_p: 0.9
+max_new_tokens: 2048
+repetition_penalty: 1.15

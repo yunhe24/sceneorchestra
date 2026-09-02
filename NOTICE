@@ -1,0 +1,8 @@
+SceneOrchestra includes a vendored LLaMAFactory training core derived from
+LLaMA-Factory (https://github.com/hiyouga/LLaMA-Factory), licensed under the
+Apache License 2.0. The upstream base snapshot is commit
+03a70ba8ddb9636b90627753d49a4a9a054585bd, plus the SceneOrchestra-specific
+best-trajectory-index evaluation metric in the SFT workflow.
+
+The SceneWeaver codebase and assets are not redistributed; users install the
+official SceneWeaver repository separately.

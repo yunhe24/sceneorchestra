@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the SceneOrchestra paper."
+title: "SceneOrchestra: Efficient Agentic 3D Scene Synthesis via Full Tool-Call Trajectory Generation"
+type: software
+authors:
+  - family-names: He
+    given-names: Yun
+  - family-names: Yu
+    given-names: Kelin
+  - family-names: Zwicker
+    given-names: Matthias
+version: 0.1.0
+date-released: 2026-09-02
+identifiers:
+  - type: other
+    value: "arXiv:2604.19907"
