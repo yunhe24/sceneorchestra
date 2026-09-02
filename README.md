@@ -66,7 +66,7 @@ The commands that load Qwen adapters run in the training environment. The comman
 
 ## Input instructions
 
-Instruction files are user-provided and are never committed. Three formats are accepted:
+Instruction files are user-provided. Three formats are accepted:
 
 ```text
 # instructions.txt: one instruction per non-empty line
