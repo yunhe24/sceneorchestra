@@ -4,6 +4,7 @@ Official training, data-generation, and inference code for **SceneOrchestra: Eff
 
 - [Paper](https://arxiv.org/abs/2604.19907)
 - [Project page](https://yunhe24.github.io/sceneorchestra/)
+- [Video](https://www.youtube.com/watch?v=nPEjesP1ikw)
 - [Official SceneWeaver repository](https://github.com/Scene-Weaver/SceneWeaver)
 
 SceneOrchestra learns to predict an entire SceneWeaver tool-call trajectory from a text instruction. At inference time the predicted calls are validated and executed end to end, avoiding SceneWeaver's repeated execute-review-reflect planning loop. SceneWeaver still supplies the scene-generation tools and assets.
