@@ -396,15 +396,6 @@ pytest -q
 
 For a real end-to-end smoke test, use one private instruction and one rollout. SceneWeaver execution is expensive and requires its external assets/API services, so it is intentionally not part of unit tests.
 
-## Reproducibility and data hygiene
-
-- All random dataset sampling accepts an explicit seed and uses a local RNG.
-- The normalized record stores the raw run path and rollout ID for provenance.
-- The rollout manifest is updated after every run.
-- Stepwise counterfactual execution refuses to overwrite an existing candidate workspace.
-- Configuration, code, and synthetic tests are tracked; generated data and binary artefacts are not.
-- Before publishing, run `git status --ignored` and verify that no instruction set, dataset, scene, render, log, API key, adapter, or checkpoint is staged.
-
 ## Third-party code
 
 The retained training framework is derived from [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory) and remains under the Apache License 2.0. See `LICENSE` and `NOTICE`.
