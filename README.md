@@ -1,6 +1,6 @@
 # SceneOrchestra
 
-Official training, data-generation, and inference code for **SceneOrchestra: Efficient Agentic 3D Scene Synthesis via Full Tool-Call Trajectory Generation**.
+Official training, data-generation, and inference code for **SceneOrchestra: Efficient Agentic 3D Scene Synthesis via Full Tool-Call Trajectory Generation (ECCV 2026)**.
 
 - [Paper](https://arxiv.org/abs/2604.19907)
 - [Project page](https://yunhe24.github.io/sceneorchestra/)
