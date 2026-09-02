@@ -14,7 +14,7 @@ SceneOrchestra learns to predict an entire SceneWeaver tool-call trajectory from
 This source release contains:
 
 - the LLaMAFactory training core used for Qwen3 LoRA SFT and DPO;
-- paper-aligned construction of stepwise SFT, trajectory SFT, stepwise DPO, trajectory DPO, and discriminator data;
+- construction of stepwise SFT, trajectory SFT, stepwise DPO, trajectory DPO, and discriminator data;
 - the one-cycle interleaved discriminator/orchestrator training pipeline;
 - a wrapper that launches the original SceneWeaver agent to collect rollout trajectories;
 - a parser that converts SceneWeaver outputs into a portable scored-rollout format;
