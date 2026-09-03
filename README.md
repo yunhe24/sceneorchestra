@@ -8,19 +8,7 @@ Official code for **SceneOrchestra: Efficient Agentic 3D Scene Synthesis via Ful
 
 SceneOrchestra learns to predict an entire SceneWeaver tool-call trajectory from a text instruction. At inference time the predicted calls are validated and executed end to end, avoiding SceneWeaver's repeated execute-review-reflect planning loop. SceneWeaver still supplies the scene-generation tools and assets.
 
-## What is included
-
-This source release contains:
-
-- the LLaMAFactory training core used for Qwen3 LoRA SFT and DPO;
-- construction of stepwise SFT, trajectory SFT, stepwise DPO, trajectory DPO, and discriminator data;
-- the one-cycle interleaved discriminator/orchestrator training pipeline;
-- a wrapper that launches the original SceneWeaver agent to collect rollout trajectories;
-- a parser that converts SceneWeaver outputs into a portable scored-rollout format;
-- SceneWeaver execution adapters for an alternative next step and a full predicted trajectory;
-- inference, trajectory validation, and complete training configurations.
-
-SceneWeaver itself is also not vendored. Clone its [official repository](https://github.com/Scene-Weaver/SceneWeaver) separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
+SceneWeaver itself is not vendored. Clone its [official repository](https://github.com/Scene-Weaver/SceneWeaver) separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
 
 ## Installation
 
