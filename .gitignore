@@ -20,6 +20,9 @@
 *.png
 *.mp4
 
+# Documentation figures are part of the source release.
+!assets/**
+
 # Python/tooling.
 __pycache__/
 *.py[cod]

@@ -7,6 +7,8 @@ Official training, data-generation, and inference code for **SceneOrchestra: Eff
 - [Video](https://www.youtube.com/watch?v=nPEjesP1ikw)
 - [Official SceneWeaver repository](https://github.com/Scene-Weaver/SceneWeaver)
 
+![SceneOrchestra overview. An instruction and recorded tool trajectories train an orchestrator and a discriminator through SFT and DPO. A second phase distills the discriminator's ranking ability back into the orchestrator, and the orchestrator alone produces the final scene.](assets/overview.png)
+
 SceneOrchestra learns to predict an entire SceneWeaver tool-call trajectory from a text instruction. At inference time the predicted calls are validated and executed end to end, avoiding SceneWeaver's repeated execute-review-reflect planning loop. SceneWeaver still supplies the scene-generation tools and assets.
 
 ## What is included
