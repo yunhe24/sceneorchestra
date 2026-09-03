@@ -2,10 +2,7 @@
 
 Official training, data-generation, and inference code for **SceneOrchestra: Efficient Agentic 3D Scene Synthesis via Full Tool-Call Trajectory Generation (ECCV 2026)**.
 
-- [Paper](https://arxiv.org/abs/2604.19907)
-- [Project page](https://yunhe24.github.io/sceneorchestra/)
-- [Video](https://www.youtube.com/watch?v=nPEjesP1ikw)
-- [Official SceneWeaver repository](https://github.com/Scene-Weaver/SceneWeaver)
+📄 [Paper](https://arxiv.org/abs/2604.19907) &nbsp;·&nbsp; 🌐 [Project page](https://yunhe24.github.io/sceneorchestra/) &nbsp;·&nbsp; 🎬 [Video](https://www.youtube.com/watch?v=nPEjesP1ikw)
 
 ![SceneOrchestra overview. An instruction and recorded tool trajectories train an orchestrator and a discriminator through SFT and DPO. A second phase distills the discriminator's ranking ability back into the orchestrator, and the orchestrator alone produces the final scene.](assets/overview.png)
 
@@ -23,7 +20,7 @@ This source release contains:
 - SceneWeaver execution adapters for an alternative next step and a full predicted trajectory;
 - inference, trajectory validation, and complete training configurations.
 
-SceneWeaver itself is also not vendored. Clone its official repository separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
+SceneWeaver itself is also not vendored. [Clone its official repository](https://github.com/Scene-Weaver/SceneWeaver) separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
 
 ## Installation
 
