@@ -26,7 +26,7 @@ This source release contains:
 - SceneWeaver execution adapters for an alternative next step and a full predicted trajectory;
 - inference, trajectory validation, and complete training configurations.
 
-SceneWeaver itself is also not vendored. [Clone its official repository](https://github.com/Scene-Weaver/SceneWeaver) separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
+SceneWeaver itself is also not vendored. Clone its [official repository](https://github.com/Scene-Weaver/SceneWeaver) separately and pass its path with `--sceneweaver-root` (or set `SCENEWEAVER_ROOT`).
 
 ## Installation
 
