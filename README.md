@@ -1,8 +1,14 @@
 # SceneOrchestra
 
-Official training, data-generation, and inference code for **SceneOrchestra: Efficient Agentic 3D Scene Synthesis via Full Tool-Call Trajectory Generation (ECCV 2026)**.
+Official code for **SceneOrchestra: Efficient Agentic 3D Scene Synthesis via Full Tool-Call Trajectory Generation (ECCV 2026)**.
 
-📄 [Paper](https://arxiv.org/abs/2604.19907) &nbsp;·&nbsp; 🌐 [Project page](https://yunhe24.github.io/sceneorchestra/) &nbsp;·&nbsp; 🎬 [Video](https://www.youtube.com/watch?v=nPEjesP1ikw)
+<p align="center">
+  📄 <a href="https://arxiv.org/abs/2604.19907">Paper</a>
+  &nbsp;·&nbsp;
+  🌐 <a href="https://yunhe24.github.io/sceneorchestra/">Project page</a>
+  &nbsp;·&nbsp;
+  🎬 <a href="https://www.youtube.com/watch?v=nPEjesP1ikw">Video</a>
+</p>
 
 ![SceneOrchestra overview. An instruction and recorded tool trajectories train an orchestrator and a discriminator through SFT and DPO. A second phase distills the discriminator's ranking ability back into the orchestrator, and the orchestrator alone produces the final scene.](assets/overview.png)
 
